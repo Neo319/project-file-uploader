@@ -18,3 +18,11 @@ model User {
   password String
   files    Json?
 }
+
+//session middleware
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
+}

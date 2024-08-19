@@ -29,6 +29,21 @@ app.use("/users", usersRouter);
 // passport setup
 
 // prisma session store setup
+app.use(
+  expressSession({
+    cookie: {
+      maxAge: 7 * 24 * 60 * 60 * 1000, // ms
+    },
+    secret: "a santa at nasa",
+    resave: true,
+    saveUninitialized: true,
+    store: new PrismaSessionStore(new PrismaClient(), {
+      checkPeriod: 2 * 60 * 1000, //ms
+      dbRecordIdIsSessionId: true,
+      dbRecordIdFunction: undefined,
+    }),
+  })
+);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

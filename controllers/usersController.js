@@ -7,9 +7,6 @@ const bcrypt = require("bcryptjs");
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
-const { PrismaClient } = require("@prisma/client");
-
 // --------- ROUTES ---------
 
 exports.homepage_get = function (req, res, next) {
