@@ -7,5 +7,6 @@ const usersController = require("../controllers/usersController");
 router.get("/", usersController.homepage_get);
 
 router.get("/sign-up", usersController.sign_up_get);
+router.post("/sign-up", usersController.sign_up_post);
 
 module.exports = router;

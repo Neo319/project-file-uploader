@@ -4,36 +4,28 @@ const { body, validationResult } = require("express-validator");
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
 
-import { PrismaClient } from "@prisma/client";
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 // --------- ROUTES ---------
 
-exports.homepage_get = function (req, res, next) {
+const homepage_get = function (req, res, next) {
   res.render("index", { title: "Homepage" });
 };
 
-exports.sign_up_get = function (req, res) {
+const sign_up_get = function (req, res) {
   res.render("sign-up-form", { title: "Sign Up" });
 };
 
 // --- POST new user to database. ---
-exports.sign_up_post = [
+const sign_up_post = [
   //validate & sanitize
-  body("first_name")
+  body("username")
     .trim()
     .notEmpty()
-    .withMessage("First name is required")
+    .withMessage("Username is required")
     .isLength({ min: 2 })
-    .withMessage("First name must be at least 2 characters")
-    .escape(),
-
-  body("last_name")
-    .trim()
-    .notEmpty()
-    .withMessage("Last name is required")
-    .isLength({ min: 2 })
-    .withMessage("Last name must be at least 2 characters")
+    .withMessage("Username must be at least 2 characters")
     .escape(),
 
   body("password")
@@ -71,14 +63,18 @@ exports.sign_up_post = [
       }
 
       try {
-        const user = {
-          first_name: req.body.first_name,
-          last_name: req.body.last_name,
-          username: req.body.username,
-          password: hashedPassword,
-        };
-        // const result = await db.insertUser(user);
-        // --------- TODO: must be overwritten with prisma query ---------
+        await prisma.user.create({
+          data: {
+            username: req.body.username,
+            password: hashedPassword,
+          },
+        });
+
+        //debug
+        const allUsers = await prisma.user.findMany();
+
+        console.log(allUsers);
+
         res.redirect("/");
       } catch (err) {
         return next(err);
@@ -86,3 +82,9 @@ exports.sign_up_post = [
     });
   },
 ];
+
+module.exports = {
+  homepage_get,
+  sign_up_get,
+  sign_up_post,
+};

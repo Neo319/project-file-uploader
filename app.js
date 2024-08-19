@@ -12,6 +12,7 @@ var app = express();
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 const { PrismaClient } = require("@prisma/client");
 const passport = require("passport");
+const expressSession = require("express-session");
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
