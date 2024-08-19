@@ -1,11 +1,31 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+
+<head>
+  <title><%= title %></title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+  <h1><%= title %></h1>
+  <p>Welcome to "Project File Uploader", part of The Odin Project's Node.js Course. </p>
+
+  <h1>Authentication</h1>
+
+  <% if (typeof user !== "undefined" && user !== null) {%>
+  <h1>WELCOME BACK <%= user.username %></h1>
+  <a href="/log-out">LOG OUT</a>
+  <% } else { %>
+  <h2>please log in</h2>
+  <form action="/log-in" method="POST">
+    <label for="username">Username</label>
+    <input id="username" name="username" placeholder="my-name@something.com" type="text" />
+    <label for="password">Password</label>
+    <input id="password" name="password" placeholder="randompassword" type="password" />
+    <button>Log In</button>
+  </form>
+  <p>Don't have an account? <a href="/sign-up">Sign Up</a></p>
+  <%}%>
+      
   </body>
 </html>
