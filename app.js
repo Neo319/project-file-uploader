@@ -1,3 +1,4 @@
+require("dotenv").config();
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
@@ -11,8 +12,11 @@ var app = express();
 
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 const { PrismaClient } = require("@prisma/client");
-const passport = require("passport");
 const expressSession = require("express-session");
+
+// passport configuration
+const passport = require("passport");
+require("./config/passport")(passport);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -23,11 +27,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
-
-// passport setup
 
 // prisma session store setup
 app.use(
@@ -45,6 +44,10 @@ app.use(
     }),
   })
 );
+
+//initialize passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
