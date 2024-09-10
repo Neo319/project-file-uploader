@@ -19,6 +19,7 @@ const passport = require("passport");
 require("./config/passport")(passport);
 
 // view engine setup
+//TODO: test & revise if this line is necessary?
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
@@ -49,6 +50,8 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/", indexRouter);
+
+//TODO: Implement passport sessions HERE, as application-level middleware.
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

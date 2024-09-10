@@ -1,16 +1,14 @@
+//configuration file for passport middleware (passport should be given as an argument.)
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 //require db through prisma?
 
-const prisma = require("@prisma/client").PrismaClient;
-const db = new prisma();
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
 
 const bcrypt = require("bcryptjs");
 
 module.exports = function (passport) {
-  // ...
-  // TODO : configure passport using prisma framework
-
   const strategy = new LocalStrategy(async function verify(
     user,
     password,

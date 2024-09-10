@@ -19,7 +19,7 @@ const homepage_get = function (req, res, next) {
 
 const login_post = function (req, res, next) {
   //
-  // This is where we use the local strategy established in config. TODO: Employ Passport.use
+  // This is where we use the local strategy established in config. TODO: Employ Passport.authenticate
   //
 };
 
