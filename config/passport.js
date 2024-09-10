@@ -1,45 +1,30 @@
 //configuration file for passport middleware (passport should be given as an argument.)
 const passport = require("passport");
-const LocalStrategy = require("passport-local");
-//require db through prisma?
+const LocalStrategy = require("passport-local").Strategy;
 
+//accessing db through prisma
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const bcrypt = require("bcryptjs");
 
-module.exports = function (passport) {
-  const strategy = new LocalStrategy(async function verify(
-    user,
-    password,
-    done
-  ) {
-    // 1: database query
+//Configure Passport to use LocalStrategy
+passport.use(
+  new LocalStrategy(async (username, password, done) => {
     try {
-      // Use Prisma to find the user by username
-      const user = await prisma.user.findUnique({
-        where: { username: username },
-      });
+      //get data from db (async)
+      //TODO: use a prisma function like findOne
+
+      //temp
+      console.log("somethings");
 
       if (!user) {
-        return done(null, false, {
-          message: "Incorrect username or password.",
-        });
+        //user not found in db
+        return done(null, false, { message: "incorrect username." });
       }
-
-      // 2: verify encrypted password with bcrypt compare
-      const match = await bcrypt.compare(password, user.hashedPassword);
-      if (!match) {
-        return done(null, false, {
-          message: "Incorrect username or password.",
-        });
-      }
-
-      // 3: implement serialize and deserialize functions
-
-      //
+      //TODO: compare passwords here
     } catch (err) {
       return done(err);
     }
-  });
-};
+  })
+);

@@ -18,9 +18,19 @@ const homepage_get = function (req, res, next) {
 //TODO: implement logging in from posting on index page (ensure use of prisma sessions...)
 
 const login_post = function (req, res, next) {
-  //
-  // This is where we use the local strategy established in config. TODO: Employ Passport.authenticate
-  //
+  // This is where we use the local strategy established in config.
+  passport.authenticate("local", (err, user, info) => {
+    if (err) return next(err);
+    if (!user) {
+      return res.redirect("/login"); // Redirect to login if authentication fails
+    }
+    req.logIn(user, (err) => {
+      if (err) return next(err);
+      return res.redirect("/"); // Redirect to home or intended page on success
+    });
+  })(req, res, next); // Important to call this function with req, res, next
+
+  // TODO: determine why local is 'unknown strategy'
 };
 
 const logout_get = function (req, res, next) {
