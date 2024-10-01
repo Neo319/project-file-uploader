@@ -18,7 +18,14 @@ const homepage_get = function (req, res, next) {
 //TODO: implement logging in from posting on index page (ensure use of prisma sessions...)
 
 const login_post = function (req, res, next) {
-  // This is where we use the local strategy established in config.
+  // This is where we use the local strategy established in passport config.
+
+  //debug
+  console.log("attempting login (from controller)");
+
+  console.log("user passed to passport: ");
+  console.log(user);
+
   passport.authenticate("local", (err, user, info) => {
     if (err) return next(err);
     if (!user) {
@@ -98,11 +105,6 @@ const sign_up_post = [
             password: hashedPassword,
           },
         });
-
-        //debug
-        const allUsers = await prisma.user.findMany();
-
-        console.log(allUsers);
 
         res.redirect("/");
       } catch (err) {
