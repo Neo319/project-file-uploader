@@ -15,8 +15,7 @@ const { PrismaClient } = require("@prisma/client");
 const expressSession = require("express-session");
 
 // passport configuration
-const passport = require("passport");
-require("./config/passport")(passport);
+const passport = require("./config/passport");
 
 // view engine setup
 //TODO: test & revise if this line is necessary?
