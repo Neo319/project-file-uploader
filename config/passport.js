@@ -10,21 +10,15 @@ const bcrypt = require("bcryptjs");
 
 //Configure Passport to use LocalStrategy
 passport.use(
+  "local", // essential name of strategy
   new LocalStrategy(async (username, password, done) => {
     try {
-      //get data from db (async)
-      //TODO: use a prisma function like findOne
-
       //debug
-
       console.log("attempting to find user (from passport config)");
 
       const user = await prisma.user.findFirst({
         where: { username: username },
       });
-
-      //temp
-      console.log(`FOUND user : ${user}`);
 
       if (!user) {
         //user not found in db
@@ -35,10 +29,21 @@ passport.use(
       //---------------------------------------------
       //TODO: compare passwords here
 
-      //bcrypt.compare()  ??
+      console.log(
+        `comparing input: ${password} to expected : ${user.password}`
+      );
 
-      bcrypt.compare(password, user.password, function (err, res) {
-        // something ... handle errors and response here
+      bcrypt.compare(password, user.password, function (isMatch, err) {
+        if (err) {
+          return done(err); // if there is an error, pass it to passport
+        }
+
+        if (isMatch) {
+          return done(null, user);
+        } else {
+          //no match
+          return done(null, false, { message: "Incorrect password." });
+        }
       });
 
       // docs here:

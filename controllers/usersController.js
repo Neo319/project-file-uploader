@@ -2,7 +2,7 @@ const express = require("express");
 const { body, validationResult } = require("express-validator");
 
 const passport = require("passport");
-const LocalStrategy = require("passport-local");
+require("../config/passport");
 
 const bcrypt = require("bcryptjs");
 
@@ -18,26 +18,36 @@ const homepage_get = function (req, res, next) {
 //TODO: implement logging in from posting on index page (ensure use of prisma sessions...)
 
 const login_post = function (req, res, next) {
-  // This is where we use the local strategy established in passport config.
-
-  //debug
   console.log("attempting login (from controller)");
 
-  console.log("user passed to passport: ");
-  console.log(user);
-
   passport.authenticate("local", (err, user, info) => {
-    if (err) return next(err);
+    console.log("debug: entered passport.authenticate of userscontroller");
+
+    if (err) {
+      console.error("Error during authentication:", info);
+      return next(err);
+    }
     if (!user) {
+      console.log("debug: user does not exist");
+      console.log("additional info:", info);
+
+      // Send a failure flash message or customize a response
+      req.flash("error", info ? info.message : "Login failed.");
+
       return res.redirect("/login"); // Redirect to login if authentication fails
     }
+
+    console.log("user passed to passport: ", user);
+    //Log the user in
+
     req.logIn(user, (err) => {
-      if (err) return next(err);
+      if (err) {
+        console.error("error during login,", err);
+        return next(err);
+      }
       return res.redirect("/"); // Redirect to home or intended page on success
     });
   })(req, res, next); // Important to call this function with req, res, next
-
-  // TODO: determine why local is 'unknown strategy'
 };
 
 const logout_get = function (req, res, next) {
