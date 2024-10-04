@@ -7,6 +7,7 @@ require("../config/passport");
 const bcrypt = require("bcryptjs");
 
 const { PrismaClient } = require("@prisma/client");
+const e = require("express");
 const prisma = new PrismaClient();
 
 // --------- ROUTES ---------
@@ -49,7 +50,21 @@ const login_post = function (req, res, next) {
   //     });
   //   };
 
-  res.send("should be logged in");
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      console.log("debug: error during authentication", info);
+      return next(err); // THIS LINE -- LEADS TO A WHITE SCREEN?
+    }
+    if (!user) {
+      console.log("debug: user not found.");
+      return res.redirect("/"); // Redirect to home
+    }
+    req.logIn(user, (err) => {
+      if (err) return next(err);
+      console.log("debug: successful login as user: ", user);
+      return res.redirect("/");
+    });
+  })(req, res, next);
 };
 
 const logout_get = function (req, res, next) {

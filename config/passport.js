@@ -29,7 +29,7 @@ passport.use(
       //---------------------------------------------
       //TODO: compare passwords here
 
-      bcrypt.compare(password, user.password, function (isMatch, err) {
+      bcrypt.compare(password, user.password, function (err, isMatch) {
         if (err) {
           return done(err); // if there is an error, pass it to passport
         }
