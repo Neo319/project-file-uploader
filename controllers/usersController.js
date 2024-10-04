@@ -20,34 +20,36 @@ const homepage_get = function (req, res, next) {
 const login_post = function (req, res, next) {
   console.log("attempting login (from controller)");
 
-  passport.authenticate("local", (err, user, info) => {
-    console.log("debug: entered passport.authenticate of userscontroller");
+  // passport.authenticate("local", {
+  //   failureRedirect: "/",
+  //   failureMessage: true,
+  // }),
+  //   function (err, user, info) {
+  //     console.log("debug: entered passport.authenticate of userscontroller");
 
-    if (err) {
-      console.error("Error during authentication:", info);
-      return next(err);
-    }
-    if (!user) {
-      console.log("debug: user does not exist");
-      console.log("additional info:", info);
+  //     if (err) {
+  //       console.error("Error during authentication:", info);
+  //       return next(err);
+  //     }
+  //     if (!user) {
+  //       console.log("debug: user does not exist");
+  //       console.log("additional info:", info);
+  //       return res.redirect("/"); // Redirect to login if authentication fails
+  //     }
 
-      // Send a failure flash message or customize a response
-      req.flash("error", info ? info.message : "Login failed.");
+  //     console.log("user passed to passport: ", user);
 
-      return res.redirect("/login"); // Redirect to login if authentication fails
-    }
+  //     //Log the user in
+  //     req.logIn(user, (err) => {
+  //       if (err) {
+  //         console.error("error during login,", err);
+  //         return next(err);
+  //       }
+  //       return res.redirect("/"); // Redirect to home or intended page on success
+  //     });
+  //   };
 
-    console.log("user passed to passport: ", user);
-    //Log the user in
-
-    req.logIn(user, (err) => {
-      if (err) {
-        console.error("error during login,", err);
-        return next(err);
-      }
-      return res.redirect("/"); // Redirect to home or intended page on success
-    });
-  })(req, res, next); // Important to call this function with req, res, next
+  res.send("should be logged in");
 };
 
 const logout_get = function (req, res, next) {

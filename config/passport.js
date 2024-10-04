@@ -29,10 +29,6 @@ passport.use(
       //---------------------------------------------
       //TODO: compare passwords here
 
-      console.log(
-        `comparing input: ${password} to expected : ${user.password}`
-      );
-
       bcrypt.compare(password, user.password, function (isMatch, err) {
         if (err) {
           return done(err); // if there is an error, pass it to passport
