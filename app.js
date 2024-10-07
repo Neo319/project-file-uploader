@@ -18,6 +18,25 @@ const expressSession = require("express-session");
 const passport = require("passport");
 require("./config/passport");
 
+// here is where we write serialize and deserialize
+passport.serializeUser(function (user, cb) {
+  console.log("serializing...");
+  process.nextTick(function () {
+    return cb(null, {
+      id: user.id,
+      username: user.username,
+    });
+  });
+});
+
+// TODO: error in this function?
+passport.deserializeUser(function (user, cb) {
+  console.log("deserializing...");
+  process.nextTick(function () {
+    return cb(null, user);
+  });
+});
+
 // view engine setup
 //TODO: test & revise if this line is necessary?
 app.set("views", path.join(__dirname, "views"));

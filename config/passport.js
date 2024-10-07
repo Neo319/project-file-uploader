@@ -43,22 +43,6 @@ passport.use(
       // http://www.passportjs.org/concepts/authentication/password/
 
       //------------------------------
-
-      // here is where we write serialize and deserialize
-      passport.serializeUser(function (user, cb) {
-        process.nextTick(function () {
-          return cb(null, {
-            id: user.id,
-            username: user.username,
-          });
-        });
-      });
-
-      passport.deserializeUser(function (user, cb) {
-        process.nextTick(function () {
-          return cb(null, user);
-        });
-      });
     } catch (err) {
       return done(err);
     }
