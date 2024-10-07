@@ -13,42 +13,13 @@ const prisma = new PrismaClient();
 // --------- ROUTES ---------
 
 const homepage_get = function (req, res, next) {
-  res.render("index", { title: "Homepage" });
+  res.render("index", { title: "Homepage", user: req.user });
 };
 
 //TODO: implement logging in from posting on index page (ensure use of prisma sessions...)
 
 const login_post = function (req, res, next) {
   console.log("attempting login (from controller)");
-
-  // passport.authenticate("local", {
-  //   failureRedirect: "/",
-  //   failureMessage: true,
-  // }),
-  //   function (err, user, info) {
-  //     console.log("debug: entered passport.authenticate of userscontroller");
-
-  //     if (err) {
-  //       console.error("Error during authentication:", info);
-  //       return next(err);
-  //     }
-  //     if (!user) {
-  //       console.log("debug: user does not exist");
-  //       console.log("additional info:", info);
-  //       return res.redirect("/"); // Redirect to login if authentication fails
-  //     }
-
-  //     console.log("user passed to passport: ", user);
-
-  //     //Log the user in
-  //     req.logIn(user, (err) => {
-  //       if (err) {
-  //         console.error("error during login,", err);
-  //         return next(err);
-  //       }
-  //       return res.redirect("/"); // Redirect to home or intended page on success
-  //     });
-  //   };
 
   passport.authenticate("local", (err, user, info) => {
     if (err) {

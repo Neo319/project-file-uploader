@@ -28,8 +28,6 @@ passport.serializeUser(function (user, cb) {
     });
   });
 });
-
-// TODO: error in this function?
 passport.deserializeUser(function (user, cb) {
   console.log("deserializing...");
   process.nextTick(function () {
@@ -69,8 +67,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/", indexRouter);
-
-//TODO: Implement passport sessions HERE, as application-level middleware.
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
