@@ -14,8 +14,6 @@ passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
       //debug
-      console.log("attempting to find user (from passport config)");
-
       const user = await prisma.user.findFirst({
         where: { username: username },
       });
@@ -25,16 +23,15 @@ passport.use(
         return done(null, false, { message: "incorrect username." });
       }
 
-      //HERE IS WHAT IS MISSING
-      //---------------------------------------------
-      //TODO: compare passwords here
-
       bcrypt.compare(password, user.password, function (err, isMatch) {
         if (err) {
           return done(err); // if there is an error, pass it to passport
         }
 
         if (isMatch) {
+          console.log("debug: user was matched. attempting authentication...");
+          // -------------- TODO: INITIALIZE SESSION SUPPORT --------------
+          //FAILING TO SERIALIZE USER HERE
           return done(null, user);
         } else {
           //no match
@@ -47,7 +44,21 @@ passport.use(
 
       //------------------------------
 
-      // TODO: return res with authenticated user (?)
+      // here is where we write serialize and deserialize
+      passport.serializeUser(function (user, cb) {
+        process.nextTick(function () {
+          return cb(null, {
+            id: user.id,
+            username: user.username,
+          });
+        });
+      });
+
+      passport.deserializeUser(function (user, cb) {
+        process.nextTick(function () {
+          return cb(null, user);
+        });
+      });
     } catch (err) {
       return done(err);
     }
