@@ -112,10 +112,24 @@ const sign_up_post = [
   },
 ];
 
+// TODO: write POST route for post-file.
+
+// TODO: write GET route for get-files.
+
+const files_get = function (req, res) {
+  //something
+};
+
+const files_post = function (req, res) {
+  //something
+};
 module.exports = {
   homepage_get,
   sign_up_get,
   sign_up_post,
   login_post,
   logout_get,
+
+  files_get,
+  files_post,
 };

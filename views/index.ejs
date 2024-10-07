@@ -17,7 +17,7 @@
   <% var isLoggedIn = typeof user !== "undefined" && user !== null %>
 
   <% if (isLoggedIn) {%>
-  <h1>WELCOME BACK <%= user.username %></h1>
+  <p>WELCOME BACK, <%= user.username %>!</p>
   <a href="/log-out">LOG OUT</a>
   <% } else { %>
   <h2>please log in</h2>
@@ -32,18 +32,19 @@
   <%}%>
       
   <!-- logged in users should see a form for uploading files here. -->
-
   <h2>File Posting</h2>
 
-  <span>temp: logged in =<%=isLoggedIn%> </span>
-
   <form action="/post-file" method="post">
-    <label for="">post file here:</label>
+    <label for="fileInput">Post file here:</label>
+    <input type="file" name="fileInput" id="fileInput" />
+    <br />
 
     <!-- button will be disabled unless Logged in. -->
+     <!-- TODO: add error message if no file selected -->
     <button type="submit" <%= isLoggedIn ? "" : "disabled" %>>Upload File</button>
-
   </form>
+
+  <!-- TODO: create link to files for logged in users. -->
 
 </body>
 
