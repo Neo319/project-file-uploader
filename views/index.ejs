@@ -10,9 +10,13 @@
   <h1><%= title %></h1>
   <p>Welcome to "Project File Uploader", part of The Odin Project's Node.js Course. </p>
 
-  <h1>Authentication</h1>
+  <p>Features: sign up and log in using <b>passport.js, express and prisma sessions. </b> Logged-in users will see a unique message, and be able to post files to a database. (WIP: Temporarily stored on local machine.)</p>
 
-  <% if (typeof user !== "undefined" && user !== null) {%>
+  <h2>Authentication</h2>
+
+  <% var isLoggedIn = typeof user !== "undefined" && user !== null %>
+
+  <% if (isLoggedIn) {%>
   <h1>WELCOME BACK <%= user.username %></h1>
   <a href="/log-out">LOG OUT</a>
   <% } else { %>
@@ -27,5 +31,20 @@
   <p>Don't have an account? <a href="/sign-up">Sign Up</a></p>
   <%}%>
       
-  </body>
+  <!-- logged in users should see a form for uploading files here. -->
+
+  <h2>File Posting</h2>
+
+  <span>temp: logged in =<%=isLoggedIn%> </span>
+
+  <form action="/post-file" method="post">
+    <label for="">post file here:</label>
+
+    <!-- button will be disabled unless Logged in. -->
+    <button type="submit" <%= isLoggedIn ? "" : "disabled" %>>Upload File</button>
+
+  </form>
+
+</body>
+
 </html>
