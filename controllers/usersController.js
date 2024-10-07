@@ -1,4 +1,3 @@
-const express = require("express");
 const { body, validationResult } = require("express-validator");
 
 const passport = require("passport");
@@ -7,8 +6,11 @@ require("../config/passport");
 const bcrypt = require("bcryptjs");
 
 const { PrismaClient } = require("@prisma/client");
-const e = require("express");
+
 const prisma = new PrismaClient();
+
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 
 // --------- ROUTES ---------
 
@@ -116,13 +118,14 @@ const sign_up_post = [
 
 // TODO: write GET route for get-files.
 
-const files_get = function (req, res) {
-  //something
+const files_post = function (req, res) {
+  res.send("NOT IMPLEMENTED: file posting");
 };
 
-const files_post = function (req, res) {
-  //something
+const files_get = function (req, res) {
+  res.send("NOT IMPLEMENTED: file retrieval");
 };
+
 module.exports = {
   homepage_get,
   sign_up_get,
