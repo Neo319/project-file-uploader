@@ -12,6 +12,8 @@ const prisma = new PrismaClient();
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
 
+var isLoggedIn = typeof user !== "undefined" && user !== null;
+
 // --------- ROUTES ---------
 
 const homepage_get = function (req, res, next) {
@@ -118,7 +120,33 @@ const sign_up_post = [
 
 // TODO: write GET route for get-files.
 
-const files_post = function (req, res) {
+const files_post = async function (req, res, next) {
+  console.log(req.body);
+
+  // note: in the req.body object, 'fileInput' is the property that contains the file we need. (destructure?)
+  // default file size limit: 1 MB
+
+  if (isLoggedIn) {
+    try {
+      //something
+      console.log("updating userID: ", req.user.id);
+
+      // prepare file for upload. (create object)
+
+      // updating user to contain file
+      prisma.user.update({
+        where: {
+          id: req.user.id,
+        },
+        data: {
+          // get current user files, add new file
+        },
+      });
+    } catch (err) {
+      return next(err);
+    }
+  }
+
   res.send("NOT IMPLEMENTED: file posting");
 };
 
@@ -133,6 +161,6 @@ module.exports = {
   login_post,
   logout_get,
 
-  files_get,
   files_post,
+  files_get,
 };

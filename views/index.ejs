@@ -34,7 +34,12 @@
   <!-- logged in users should see a form for uploading files here. -->
   <h2>File Posting</h2>
 
-  <form action="/post-file" method="post">
+  <form action="/post-files" method="post">
+
+    <label for="fileName">File Name (What to call it in the database): </label>
+    <input type="text" name="fileName">
+    <br />
+
     <label for="fileInput">Post file here:</label>
     <input type="file" name="fileInput" id="fileInput" />
     <br />
