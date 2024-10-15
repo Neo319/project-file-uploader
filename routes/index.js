@@ -42,6 +42,6 @@ router.post(
   upload.single("fileInput"),
   usersController.files_post
 );
-router.post("/get-files", usersController.files_get);
+router.get("/get-files", usersController.files_get);
 
 module.exports = router;

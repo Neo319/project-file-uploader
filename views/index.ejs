@@ -29,8 +29,8 @@
     <button>Log In</button>
   </form>
   <p>Don't have an account? <a href="/sign-up">Sign Up</a></p>
-  <%}%>
-      
+  <% } %>
+
   <!-- logged in users should see a form for uploading files here. -->
   <h2>File Posting</h2>
 
@@ -45,11 +45,15 @@
     <br />
 
     <!-- button will be disabled unless Logged in. -->
-     <!-- TODO: add error message if no file selected -->
+    <!-- TODO: add error message if no file selected -->
     <button type="submit" <%= isLoggedIn ? "" : "disabled" %>>Upload File</button>
   </form>
 
   <!-- TODO: create link to files for logged in users. -->
+
+  <% if (isLoggedIn) {%>
+  <a href="/get-files">See my files...</a>
+  <% } %>
 
 </body>
 

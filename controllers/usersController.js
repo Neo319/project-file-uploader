@@ -18,8 +18,6 @@ const homepage_get = function (req, res, next) {
 //TODO: implement logging in from posting on index page (ensure use of prisma sessions...)
 
 const login_post = function (req, res, next) {
-  console.log("attempting login (from controller)");
-
   passport.authenticate("local", (err, user, info) => {
     if (err) {
       console.log("debug: error during authentication", info);
@@ -125,7 +123,7 @@ const files_post = async function (req, res, next) {
   res.send("debug, not implemented...");
   return null;
 
-  // redirect to home with message if either file or name are empty
+  // -------------- TODO: implement proper route handling for file uploads later.
   if (file === "" || name === "") {
     console.log("debug: missing file/name.");
     console.log(file, name);
@@ -168,6 +166,7 @@ const files_post = async function (req, res, next) {
 
 const files_get = function (req, res) {
   res.send("NOT IMPLEMENTED: file retrieval");
+  // --------- TODO: add diplay for user folders and CRUD functionality.
 };
 
 module.exports = {
