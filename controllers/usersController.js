@@ -165,8 +165,10 @@ const files_post = async function (req, res, next) {
 };
 
 const files_get = function (req, res) {
-  res.send("NOT IMPLEMENTED: file retrieval");
+  // res.send("NOT IMPLEMENTED: file retrieval");
   // --------- TODO: add diplay for user folders and CRUD functionality.
+
+  res.render("get-files", { user: req.user });
 };
 
 module.exports = {

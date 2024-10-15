@@ -4,22 +4,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel='stylesheet' href='/stylesheets/style.css' />
   <title>My Files</title>
 </head>
 
 <body>
-  <h1><%= user.username %>'s Files</h1>
+  <h1>User <%= user.username %>'s Files</h1>
   <a href="/">
     <h2>-- Project File Uploader --</h2>
   </a>
 
-  <h2>Files</h2>
+  <h2>All Folders</h2>
   <ul>
-    <span>temp: list of files should be rendered here.</span>
+    <span>temp: list of Folders should be rendered here.</span>
   </ul>
 
-  File Contents
-  <span>temp: individual files should be rendered here.</span>
+  <h2>Folder Contents</h2>
+  <span>temp: individual Folder contents should be rendered here.</span>
 </body>
+
+<h2>Temp/debug: content of user = </h2>
+<span><%= JSON.stringify(user) %></span>
 
 </html>
