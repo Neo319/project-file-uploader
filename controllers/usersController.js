@@ -117,14 +117,10 @@ const sign_up_post = [
 
 const files_post = async function (req, res, next) {
   var isLoggedIn = typeof req.user !== "undefined" && req.user !== null;
-  // const file = req.body.fileInput;
-  // const name = req.body.fileName.trim();
+  const file = req.file;
+  const name = req.body.fileName.trim();
 
-  console.log("req: ");
-  console.log(req.body);
-
-  console.log("file");
-  console.log(req.file);
+  console.log(file, name);
 
   res.send("debug, not implemented...");
   return null;

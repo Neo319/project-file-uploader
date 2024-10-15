@@ -1,14 +1,30 @@
 var express = require("express");
 var router = express.Router();
+const path = require("path");
 
 const usersController = require("../controllers/usersController");
 
 const multer = require("multer");
 
 // Set up multer configuration once, outside of any route handler
-const upload = multer({
-  dest: "../uploads", // Adjust destination path as needed
+const storage = multer.diskStorage({
+  destination: path.join(__dirname, "../tmp/uploads"),
+  filename: function (req, file, cb) {
+    const originalName = file.name;
+
+    //custom name should be the inputted value trimmed, or else the original file name.
+    const customFileName = req.body.fileName
+      ? req.body.fileName.trim()
+      : originalName;
+
+    const fileExtension = path.extname(file.originalname);
+
+    // applying the name to the file.
+    cb(null, `${customFileName}${fileExtension}`);
+  },
 });
+
+const upload = multer({ storage: storage });
 
 /* GET home page. */
 router.get("/", usersController.homepage_get);
