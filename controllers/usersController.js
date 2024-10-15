@@ -9,11 +9,6 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
-const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
-
-var isLoggedIn = typeof user !== "undefined" && user !== null;
-
 // --------- ROUTES ---------
 
 const homepage_get = function (req, res, next) {
@@ -121,33 +116,58 @@ const sign_up_post = [
 // TODO: write GET route for get-files.
 
 const files_post = async function (req, res, next) {
+  var isLoggedIn = typeof req.user !== "undefined" && req.user !== null;
+  // const file = req.body.fileInput;
+  // const name = req.body.fileName.trim();
+
+  console.log("req: ");
   console.log(req.body);
 
-  // note: in the req.body object, 'fileInput' is the property that contains the file we need. (destructure?)
-  // default file size limit: 1 MB
+  console.log("file");
+  console.log(req.file);
 
+  res.send("debug, not implemented...");
+  return null;
+
+  // redirect to home with message if either file or name are empty
+  if (file === "" || name === "") {
+    console.log("debug: missing file/name.");
+    console.log(file, name);
+
+    res.redirect("/");
+    return null;
+  }
+
+  console.log("debug: loggedin = ", isLoggedIn);
+  //ensuring user is logged in...
   if (isLoggedIn) {
     try {
-      //something
       console.log("updating userID: ", req.user.id);
 
       // prepare file for upload. (create object)
 
+      const upload = multer({ dest: "~/repos/file-editor-data/" });
+
+      console.log(upload);
+
       // updating user to contain file
-      prisma.user.update({
-        where: {
-          id: req.user.id,
-        },
-        data: {
-          // get current user files, add new file
-        },
-      });
+
+      // await prisma.user.update({
+      //   where: {
+      //     id: req.user.id,
+      //   },
+      //   data: {
+      //     // get current user files, add new file
+      //   },
+      // });
     } catch (err) {
       return next(err);
     }
   }
 
-  res.send("NOT IMPLEMENTED: file posting");
+  console.log("debug: reached end of post function...");
+
+  res.redirect("/");
 };
 
 const files_get = function (req, res) {
