@@ -175,8 +175,14 @@ const new_folder = function (req, res) {
   let customName = req.body.name.trim();
   console.log("make new folder of name:", customName);
 
+  // TODO: add folder to user obj as a string, which is appended to file destination...
+
+  // access database and create a new folder, update user's folders
+
   res.send("not implemented.");
 };
+
+//TODO: update folder names; delete folders
 
 module.exports = {
   homepage_get,
