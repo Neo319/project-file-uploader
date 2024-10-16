@@ -33,7 +33,7 @@
 
   <!-- logged in users should see a form for uploading files here. -->
   <h2>File Posting</h2>
-  <span><%=JSON.stringify(user)%></span>
+  <span>debug: <%=JSON.stringify(user)%></span>
 
   <form action="/post-files" method="post" enctype="multipart/form-data">
 
@@ -43,9 +43,9 @@
     <label for="fileFolder">File folder</label>
     <select name="fileFolder" id="fileFolder">
       <option value="file">file (default)</option>
-      <% if (user.folders) {
+      <% if (user.folders) { 
        user.folders.map((folder) => { %>
-      <option value="<%=folder.name%>"><%=folder.name%></option>
+      <option value="<%=folder.name%>"><%=folder.name %></option>
       <% })} %>
     </select>
     <br />
@@ -54,12 +54,9 @@
     <input type="file" name="fileInput" id="fileInput" />
     <br />
 
-    <!-- button will be disabled unless Logged in. -->
-    <!-- TODO: add error message if no file selected -->
     <button type="submit" <%= isLoggedIn ? "" : "disabled" %>>Upload File</button>
   </form>
 
-  <!-- TODO: create link to files for logged in users. -->
 
   <% if (isLoggedIn) {%>
   <a href="/get-files">See my files...</a>

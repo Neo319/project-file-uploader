@@ -169,7 +169,7 @@ const files_post = async function (req, res, next) {
 };
 
 const files_get = async function (req, res, next) {
-  const user = req.user;
+  const user = await prisma.user.findFirst({ where: { id: req.user.id } });
   const folders = await prisma.folder.findMany({
     where: { userId: user.id },
   });
