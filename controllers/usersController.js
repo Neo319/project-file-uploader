@@ -165,11 +165,16 @@ const files_post = async function (req, res, next) {
   res.redirect("/");
 };
 
-const files_get = function (req, res) {
+const files_get = async function (req, res, next) {
   // res.send("NOT IMPLEMENTED: file retrieval");
   // --------- TODO: add diplay for user folders and CRUD functionality.
 
-  res.render("get-files", { user: req.user });
+  const user = req.user;
+  const folders = await prisma.folder.findMany({
+    where: { userId: user.id },
+  });
+
+  res.render("get-files", { user: user, folders: folders });
 };
 
 const new_folder = async function (req, res, next) {
