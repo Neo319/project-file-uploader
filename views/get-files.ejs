@@ -27,19 +27,23 @@
 
   <ul>
     <% folders.map((folder) => { %>
-    <a href="/get-files?folder=<%=folder.name%>">
+    <a href="/get-files?openFolder=<%=folder.name%>">
       <li><%= folder.name %></li>
     </a>
     <% }) %>
   </ul>
 
-  <h2>Folder Contents</h2>
+  <% if (typeof openFolder !== 'undefined' && openFolder !== null) { %>
+  <h2> Folder <%= openFolder.name %>'s Contents:</h2>
   <ul>
-    <li><span>temp: individual Folder contents should be rendered here.</span></li>
+    <% if (!openFolder.files) { %>
+    <li>This folder has no files.</li>
+    <% } else { %>
+    <li>temp: files should be displayed here.</li>
+    <li> <%=JSON.stringify(openFolder) %> </li>
+    <% } %>
   </ul>
+  <% } %>
 </body>
-
-<h2>Temp/debug: content of user = </h2>
-<span><%= JSON.stringify(user) %></span>
 
 </html>

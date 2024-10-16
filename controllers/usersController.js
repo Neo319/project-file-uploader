@@ -166,15 +166,20 @@ const files_post = async function (req, res, next) {
 };
 
 const files_get = async function (req, res, next) {
-  // res.send("NOT IMPLEMENTED: file retrieval");
-  // --------- TODO: add diplay for user folders and CRUD functionality.
-
   const user = req.user;
   const folders = await prisma.folder.findMany({
     where: { userId: user.id },
   });
 
-  res.render("get-files", { user: user, folders: folders });
+  const openFolder = await prisma.folder.findFirst({
+    where: { userId: user.id, name: req.query.openFolder },
+  });
+
+  res.render("get-files", {
+    user: user,
+    folders: folders,
+    openFolder: openFolder,
+  });
 };
 
 const new_folder = async function (req, res, next) {

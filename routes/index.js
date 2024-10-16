@@ -43,7 +43,7 @@ router.post(
   usersController.files_post
 );
 
-// * GET new files *
+// * GET files *
 router.get("/get-files", usersController.files_get);
 
 // * POST new folder created *
