@@ -33,11 +33,21 @@
 
   <!-- logged in users should see a form for uploading files here. -->
   <h2>File Posting</h2>
+  <span><%=JSON.stringify(user)%></span>
 
   <form action="/post-files" method="post" enctype="multipart/form-data">
 
     <label for="fileName">File Name (What to call it in the database): </label>
     <input type="text" name="fileName">
+    <br />
+    <label for="fileFolder">File folder</label>
+    <select name="fileFolder" id="fileFolder">
+      <option value="file">file (default)</option>
+      <% if (user.folders) {
+       user.folders.map((folder) => { %>
+      <option value="<%=folder.name%>"><%=folder.name%></option>
+      <% })} %>
+    </select>
     <br />
 
     <label for="fileInput">Post file here:</label>

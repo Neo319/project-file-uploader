@@ -12,8 +12,10 @@ const prisma = new PrismaClient();
 
 // --------- ROUTES ---------
 
-const homepage_get = function (req, res, next) {
-  res.render("index", { title: "Homepage", user: req.user });
+const homepage_get = async function (req, res, next) {
+  const user = await prisma.user.findFirst({ where: { id: req.user.id } });
+
+  res.render("index", { title: "Homepage", user: user });
 };
 
 //TODO: implement logging in from posting on index page (ensure use of prisma sessions...)
@@ -118,6 +120,7 @@ const files_post = async function (req, res, next) {
   var isLoggedIn = typeof req.user !== "undefined" && req.user !== null;
   const file = req.file;
   const name = req.body.fileName.trim();
+  const folder = req.body.folder;
 
   console.log(file, name);
 
