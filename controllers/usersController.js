@@ -13,9 +13,14 @@ const prisma = new PrismaClient();
 // --------- ROUTES ---------
 
 const homepage_get = async function (req, res, next) {
-  const user = await prisma.user.findFirst({ where: { id: req.user.id } });
+  let user;
+  let folders;
+  if (req.user) {
+    user = await prisma.user.findFirst({ where: { id: req.user.id } });
+    folders = await prisma.folder.findMany({ where: { userId: req.user.id } });
+  }
 
-  res.render("index", { title: "Homepage", user: user });
+  res.render("index", { title: "Homepage", user: user, folders: folders });
 };
 
 //TODO: implement logging in from posting on index page (ensure use of prisma sessions...)
@@ -196,12 +201,14 @@ const new_folder = async function (req, res, next) {
 
   if (customName !== "" && userId) {
     try {
-      await prisma.folder.create({
+      const newFolder = await prisma.folder.create({
         data: {
           name: customName,
           userId: userId,
         },
       });
+
+      // TODO: update user's folders here.
     } catch (err) {
       console.log(err);
       return next(err);
