@@ -17,12 +17,12 @@
   <h2>All Folders</h2>
   <button popovertarget="newFolder">Create new Folder</button>
 
-  <form popover action="/newFolder" id="newFolder">
+  <form popover action="/new-folder" method="post" id="newFolder">
     <span>Create New Folder</span>
     <br>
     <label for="name">Name:</label>
     <input type="text" name="name">
-    <button type="submit">Confirm</button>
+    <input type="submit" value="Confirm">
   </form>
 
   <ul>

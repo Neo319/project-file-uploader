@@ -171,6 +171,13 @@ const files_get = function (req, res) {
   res.render("get-files", { user: req.user });
 };
 
+const new_folder = function (req, res) {
+  let customName = req.body.name.trim();
+  console.log("make new folder of name:", customName);
+
+  res.send("not implemented.");
+};
+
 module.exports = {
   homepage_get,
   sign_up_get,
@@ -180,4 +187,5 @@ module.exports = {
 
   files_post,
   files_get,
+  new_folder,
 };
