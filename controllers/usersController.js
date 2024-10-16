@@ -6,6 +6,7 @@ require("../config/passport");
 const bcrypt = require("bcryptjs");
 
 const { PrismaClient } = require("@prisma/client");
+const { userInfo } = require("os");
 
 const prisma = new PrismaClient();
 
@@ -171,15 +172,30 @@ const files_get = function (req, res) {
   res.render("get-files", { user: req.user });
 };
 
-const new_folder = function (req, res) {
-  let customName = req.body.name.trim();
+const new_folder = async function (req, res, next) {
+  const customName = req.body.name.trim();
   console.log("make new folder of name:", customName);
+  const userId = req.user.id;
+  console.log("debug: userId: ", userId);
 
   // TODO: add folder to user obj as a string, which is appended to file destination...
-
   // access database and create a new folder, update user's folders
 
-  res.send("not implemented.");
+  if (customName !== "" && userId) {
+    try {
+      await prisma.folder.create({
+        data: {
+          name: customName,
+          userId: userId,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+      return next(err);
+    }
+  }
+
+  res.redirect("/get-files");
 };
 
 //TODO: update folder names; delete folders
