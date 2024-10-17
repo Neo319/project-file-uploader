@@ -16,7 +16,7 @@ model User {
   id       Int      @id @default(autoincrement())
   username String
   password String
-  files    Json?
+  files    File[]
   folders  Folder[]
 }
 
@@ -41,8 +41,11 @@ model File {
   name     String @unique
   folderId Int
   folder   Folder @relation(fields: [folderId], references: [id])
+  userId   Int
+  user     User   @relation(fields: [userId], references: [id])
+
   //temp: files are stored in local system. Accessed as a path
-  path     String
+  path String
 }
 
 //TODO: create files model

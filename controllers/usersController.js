@@ -122,54 +122,15 @@ const sign_up_post = [
 // TODO: write GET route for get-files.
 
 const files_post = async function (req, res, next) {
-  var isLoggedIn = typeof req.user !== "undefined" && req.user !== null;
-  const file = req.file;
-  const name = req.body.fileName.trim();
-  const folder = req.body.folder;
+  // file upload to DISK is handled by multer.
+  // file upload to DATABASE:
 
-  console.log(file, name);
-
-  res.send("debug, not implemented...");
-  return null;
-
-  // -------------- TODO: implement proper route handling for file uploads later.
-  if (file === "" || name === "") {
-    console.log("debug: missing file/name.");
-    console.log(file, name);
-
-    res.redirect("/");
-    return null;
+  //ensure user is logged in
+  if (req.user.id) {
+    console.log(req.body);
   }
 
-  console.log("debug: loggedin = ", isLoggedIn);
-  //ensuring user is logged in...
-  if (isLoggedIn) {
-    try {
-      console.log("updating userID: ", req.user.id);
-
-      // prepare file for upload. (create object)
-
-      const upload = multer({ dest: "~/repos/file-editor-data/" });
-
-      console.log(upload);
-
-      // updating user to contain file
-
-      // await prisma.user.update({
-      //   where: {
-      //     id: req.user.id,
-      //   },
-      //   data: {
-      //     // get current user files, add new file
-      //   },
-      // });
-    } catch (err) {
-      return next(err);
-    }
-  }
-
-  console.log("debug: reached end of post function...");
-
+  //TODO: redirect to file with new folder
   res.redirect("/");
 };
 
