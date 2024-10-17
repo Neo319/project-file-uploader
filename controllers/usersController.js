@@ -126,8 +126,38 @@ const files_post = async function (req, res, next) {
   // file upload to DATABASE:
 
   //ensure user is logged in
-  if (req.user.id) {
+  if (req.userid) {
     console.log(req.body);
+
+    const customFileName = req.body.fileName;
+    const userId = req.user.id;
+
+    //find correct folder
+    const fileFolder = await prisma.folder.findFirst({
+      where: {
+        userId: userId,
+        name: req.body.fileFolder,
+      },
+    });
+
+    if (!customFileName || !req.file) {
+      console.log("missing file or name.");
+      console.log("file: ", req.file);
+      throw new Error("missing file or name.");
+    }
+
+    try {
+      await prisma.file.create({
+        data: {
+          userId: userId,
+          name: customFileName,
+          folderId: fileFolder.id,
+        },
+      });
+    } catch (err) {
+      console.log("error uploading file");
+      throw new Error("error uploading file.");
+    }
   }
 
   //TODO: redirect to file with new folder
