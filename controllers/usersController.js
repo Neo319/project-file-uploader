@@ -125,12 +125,16 @@ const files_post = async function (req, res, next) {
   // file upload to DISK is handled by multer.
   // file upload to DATABASE:
 
+  console.log(req.user.id);
+
   //ensure user is logged in
-  if (req.userid) {
-    console.log(req.body);
+  if (req.user.id) {
+    console.log(req.file);
 
     const customFileName = req.body.fileName;
     const userId = req.user.id;
+    const filePath = req.file.path;
+    console.log("path:", filePath);
 
     //find correct folder
     const fileFolder = await prisma.folder.findFirst({
@@ -140,24 +144,36 @@ const files_post = async function (req, res, next) {
       },
     });
 
+    if (!fileFolder) {
+      console.log("folder not found.");
+      res.status(400).send("folder not found");
+    }
+
+    console.log("folder: ", fileFolder);
+
     if (!customFileName || !req.file) {
       console.log("missing file or name.");
       console.log("file: ", req.file);
-      throw new Error("missing file or name.");
+      res.status(400).send("missing file or name");
     }
 
     try {
-      await prisma.file.create({
+      const item = await prisma.file.create({
         data: {
           userId: userId,
           name: customFileName,
           folderId: fileFolder.id,
+          path: filePath,
         },
       });
+      console.log("uploaded:");
+      console.log(item);
     } catch (err) {
       console.log("error uploading file");
-      throw new Error("error uploading file.");
+      res.status(400).send("error uploading file.");
     }
+  } else {
+    console.log("error: not logged in.");
   }
 
   //TODO: redirect to file with new folder
