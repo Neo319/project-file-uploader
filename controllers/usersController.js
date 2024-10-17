@@ -190,10 +190,17 @@ const files_get = async function (req, res, next) {
     where: { userId: user.id, name: req.query.openFolder },
   });
 
+  const files = await prisma.file.findMany({
+    where: {
+      folderId: openFolder.id,
+    },
+  });
+
   res.render("get-files", {
     user: user,
     folders: folders,
     openFolder: openFolder,
+    files: files,
   });
 };
 

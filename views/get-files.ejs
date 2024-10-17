@@ -37,11 +37,13 @@
   <% if (typeof openFolder !== 'undefined' && openFolder !== null) { %>
   <h2> Folder <%= openFolder.name %>'s Contents:</h2>
   <ul>
-    <% if (!openFolder.files) { %>
+    <% if (!files) { %>
     <li>This folder has no files.</li>
     <% } else { %>
     <li>temp: files should be displayed here.</li>
-    <li> <%=JSON.stringify(openFolder) %> </li>
+    <% files.map((file) => { %>
+    <li><%=file.name%></li>
+    <% }) %>
     <% } %>
   </ul>
   <% } %>
@@ -50,5 +52,7 @@
 <span>debug: <%= JSON.stringify(user) %></span>
 <br />
 <span>debug: <%= JSON.stringify(folders) %></span>
+<br />
+<span>debug: <%= JSON.stringify(files) %></span>
 
 </html>
