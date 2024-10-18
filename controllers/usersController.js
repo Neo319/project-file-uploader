@@ -204,6 +204,7 @@ const files_get = async function (req, res, next) {
   });
 };
 
+// *** folder CRUD ***
 const new_folder = async function (req, res, next) {
   const customName = req.body.name.trim();
   console.log("make new folder of name:", customName);
@@ -215,18 +216,37 @@ const new_folder = async function (req, res, next) {
 
   if (customName !== "" && userId) {
     try {
-      const newFolder = await prisma.folder.create({
+      await prisma.folder.create({
         data: {
           name: customName,
           userId: userId,
         },
       });
-
-      // TODO: update user's folders here.
     } catch (err) {
       console.log(err);
       return next(err);
     }
+  }
+  res.redirect("/get-files");
+};
+
+const update_folder = async function (req, res, next) {
+  const customName = req.body.name.trim();
+  const userId = req.user.id;
+  folderId = req.body.folderId;
+
+  try {
+    prisma.folder.update({
+      where: {
+        folderId: folderId,
+      },
+      data: {
+        name: customName,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    return next(err);
   }
 
   res.redirect("/get-files");
@@ -243,5 +263,7 @@ module.exports = {
 
   files_post,
   files_get,
+
   new_folder,
+  update_folder,
 };

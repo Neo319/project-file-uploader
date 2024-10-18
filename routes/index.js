@@ -48,5 +48,7 @@ router.get("/get-files", usersController.files_get);
 
 // * POST new folder created *
 router.post("/new-folder", usersController.new_folder);
+// * POST update folder name *
+router.post("/update-folder", usersController.update_folder);
 
 module.exports = router;
