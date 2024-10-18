@@ -36,6 +36,27 @@
 
   <% if (typeof openFolder !== 'undefined' && openFolder !== null) { %>
   <h2> Folder <%= openFolder.name %>'s Contents:</h2>
+
+  <button popovertarget="update_form">Edit Folder Name</button>
+  <button popovertarget="delete_form"><b>Delete Folder</b></button>
+
+  <!-- update form -->
+  <form popover action="/update-folder" id="update_form">
+    <h1>Update Folder: <%= openFolder.name %></h1>
+    <label for="newName">Enter new name: </label>
+    <input type="text" name="newName" id="newName">
+    <br />
+    <input type="submit" value="Confirm">
+  </form>
+
+  <!-- delete form -->
+  <form popover action="/delete-folder" id="delete_form">
+    <h1>Confirm: Delete folder <%= openFolder.name %></h1>
+    <label for="submit">Are you sure you want to delete folder <%= openFolder.name %>? <b>(Warning: all files in this folder will be deleted.)</b></label>
+    <br />
+    <input type="submit" value="Delete Folder">
+  </form>
+
   <ul>
     <% if (!files || files === []) { %>
     <li>This folder has no files.</li>

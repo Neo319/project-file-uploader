@@ -233,7 +233,7 @@ const new_folder = async function (req, res, next) {
 const update_folder = async function (req, res, next) {
   const customName = req.body.name.trim();
   const userId = req.user.id;
-  folderId = req.body.folderId;
+  const folderId = req.body.folderId;
 
   try {
     prisma.folder.update({
