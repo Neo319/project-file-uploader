@@ -22,6 +22,15 @@
   <b>
     <p>File name: <%= file.name %></p>
   </b>
+
+  <h2>Information:</h2>
+  <ul>
+    <li>File size: <%= file.size ? file.size : 'data missing'  %></li>
+    <li>Time to upload: <%= file.uploadTime ? file.uploadTime : 'data missing' %></li>
+    <li>Date created: <%= file.createdAt ? file.createdAt : 'data missing' %></li>
+
+  </ul>
+
   <% } else { %>
   <h1>Error! File not found.</h1>
   <% } %>
