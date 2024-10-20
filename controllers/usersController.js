@@ -285,6 +285,25 @@ const delete_folder = async function (req, res, next) {
   res.redirect("/get-files");
 };
 
+// -------- Individual file detail --------
+const file_detail = async function (req, res, next) {
+  // display file details including name, size, upload time, download button.
+
+  // temp: access via local disk.
+
+  try {
+    const file = await prisma.file.findUnique({
+      where: {
+        id: parseInt(req.params.id),
+      },
+    });
+    res.render("file-detail", { file: file });
+  } catch (err) {
+    console.log(err);
+    return next(err);
+  }
+};
+
 module.exports = {
   homepage_get,
   sign_up_get,
@@ -298,4 +317,6 @@ module.exports = {
   new_folder,
   update_folder,
   delete_folder,
+
+  file_detail,
 };

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File detail</title>
+  <!-- todo: add name to header? -->
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+  <h1>File detail: (name)</h1>
+
+  <% if (file) {%>
+  <p>
+    <i>
+      [debug]: <%=JSON.stringify(file)%>
+    </i>
+  </p>
+
+  <h1>File: <%= file.name %></h1>
+  <% } else { %>
+  <h1>Error! File not found.</h1>
+  <% } %>
+
+
+</body>
+
+</html>

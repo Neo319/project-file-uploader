@@ -73,7 +73,9 @@
     <% } else { %>
     <li>temp: files should be displayed here.</li>
     <% files.map((file) => { %>
-    <li><%=file.name%></li>
+    <a href="/file-detail/<%= file.id %>">
+      <li><%=file.name%></li>
+    </a>
     <% }) %>
     <% } %>
   </ul>

@@ -44,4 +44,7 @@ router.post("/update-folder", usersController.update_folder);
 // * GET delete folder & files *
 router.post("/delete-folder", usersController.delete_folder);
 
+// * GET file detail *
+router.get("/file-detail/:id", usersController.file_detail);
+
 module.exports = router;
