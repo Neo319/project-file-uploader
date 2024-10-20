@@ -48,6 +48,10 @@ model File {
 
   //temp: files are stored in local system. Accessed as a path
   path String
-}
 
-//TODO: create files model
+  createdAt  DateTime?
+  size       String?
+  uploadTime String?
+
+  // TODO: add icons???
+}
