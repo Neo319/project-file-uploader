@@ -186,15 +186,22 @@ const files_get = async function (req, res, next) {
     where: { userId: user.id },
   });
 
+  // TODO: bugfix - load users with no files
+
   const openFolder = await prisma.folder.findFirst({
     where: { userId: user.id, name: req.query.openFolder },
   });
 
-  const files = await prisma.file.findMany({
-    where: {
-      folderId: openFolder.id,
-    },
-  });
+  console.log(user, folders, openFolder);
+
+  let files = [];
+  if (openFolder !== null) {
+    files = await prisma.file.findMany({
+      where: {
+        folderId: openFolder.id,
+      },
+    });
+  }
 
   res.render("get-files", {
     user: user,
@@ -232,7 +239,6 @@ const new_folder = async function (req, res, next) {
 
 const update_folder = async function (req, res, next) {
   const customName = req.body.newName.trim();
-  const userId = req.user.id;
 
   console.log("attempting to ID: ", req.body.openFolderId);
   const folderId = parseInt(req.body.openFolderId);
@@ -256,9 +262,7 @@ const update_folder = async function (req, res, next) {
 };
 
 const delete_folder = async function (req, res, next) {
-  console.log(req.body);
   const openFolderId = parseInt(req.body.openFolderId);
-  console.log("attempting to delete: ", openFolderId);
   try {
     await prisma.folder.delete({
       where: {

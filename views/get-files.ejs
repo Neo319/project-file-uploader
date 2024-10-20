@@ -27,6 +27,11 @@
   </form>
 
   <ul>
+
+    <% if (!folders.length) {%>
+    <li>Oh no! There are no folders...</li>
+    <% } %>
+
     <% folders.map((folder) => { %>
     <a href="/get-files?openFolder=<%=folder.name%>">
       <li><%= folder.name %></li>
