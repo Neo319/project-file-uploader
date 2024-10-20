@@ -52,7 +52,10 @@
   </form>
 
   <!-- delete form -->
-  <form popover action="/delete-folder" id="delete_form">
+  <form popover method="post" action="/delete-folder" id="delete_form">
+    <input type="hidden" name="openFolderId" value="<%= openFolder.id %>">
+
+
     <h1>Confirm: Delete folder <%= openFolder.name %></h1>
     <label for="submit">Are you sure you want to delete folder <%= openFolder.name %>? <b>(Warning: all files in this folder will be deleted.)</b></label>
     <br />
@@ -72,12 +75,6 @@
   <% } %>
 </body>
 
-<i>
-  <span>debug: <%= JSON.stringify(user) %></span>
-  <br />
-  <span>debug: <%= JSON.stringify(folders) %></span>
-  <br />
-  <span>debug: <%= JSON.stringify(files) %></span>
-</i>
+
 
 </html>

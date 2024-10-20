@@ -236,6 +236,7 @@ const update_folder = async function (req, res, next) {
 
   console.log("attempting to ID: ", req.body.openFolderId);
   const folderId = parseInt(req.body.openFolderId);
+  console.log(req.body);
 
   try {
     await prisma.folder.update({
@@ -254,8 +255,22 @@ const update_folder = async function (req, res, next) {
   res.redirect("/get-files");
 };
 
-const delete_folder = function (req, res, next) {
-  res.send("not implemented: folder deletion");
+const delete_folder = async function (req, res, next) {
+  console.log(req.body);
+  const openFolderId = parseInt(req.body.openFolderId);
+  console.log("attempting to delete: ", openFolderId);
+  try {
+    await prisma.folder.delete({
+      where: {
+        id: openFolderId,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    return next(err);
+  }
+
+  res.redirect("/get-files");
 };
 
 module.exports = {
