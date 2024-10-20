@@ -39,9 +39,9 @@
     <label for="fileName">File Name (What to call it in the database): </label>
     <input type="text" name="fileName">
     <br />
-    <label for="fileFolder">File folder</label>
+    <label for="fileFolder">File folder: </label>
     <select name="fileFolder" id="fileFolder">
-      <option value="file">file (default)</option>
+      <option value="default">-- Please choose an option --</option>
       <% if (folders) { 
        folders.map((folder) => { %>
       <option value="<%=folder.name%>"><%=folder.name %></option>

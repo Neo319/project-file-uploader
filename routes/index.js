@@ -10,17 +10,8 @@ const multer = require("multer");
 const storage = multer.diskStorage({
   destination: path.join(__dirname, "../tmp/uploads"),
   filename: function (req, file, cb) {
-    const originalName = file.name;
-
-    //custom name should be the inputted value trimmed, or else the original file name.
-    const customFileName = req.body.fileName
-      ? req.body.fileName.trim()
-      : originalName;
-
-    const fileExtension = path.extname(file.originalname);
-
-    // applying the name to the file.
-    cb(null, `${customFileName}${fileExtension}`);
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, file.fieldname + "-" + uniqueSuffix);
   },
 });
 

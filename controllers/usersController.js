@@ -132,6 +132,7 @@ const sign_up_post = [
 
 const files_post = async function (req, res, next) {
   // file upload to DISK is handled by multer.
+  // TODO : ensure that filename is set before uploading.
   // file upload to DATABASE:
 
   console.log(req.user.id);
