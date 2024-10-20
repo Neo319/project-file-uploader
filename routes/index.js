@@ -50,5 +50,7 @@ router.get("/get-files", usersController.files_get);
 router.post("/new-folder", usersController.new_folder);
 // * POST update folder name *
 router.post("/update-folder", usersController.update_folder);
+// * GET delete folder & files *
+router.get("delete-folder", usersController.delete_folder);
 
 module.exports = router;

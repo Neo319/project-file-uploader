@@ -41,8 +41,10 @@
   <button popovertarget="delete_form"><b>Delete Folder</b></button>
 
   <!-- update form -->
-  <form popover action="/update-folder" id="update_form">
+  <form popover method="post" action="/update-folder" id="update_form">
     <h1>Update Folder: <%= openFolder.name %></h1>
+    <input type="hidden" name="openFolderId" value="<%= openFolder.id %>">
+
     <label for="newName">Enter new name: </label>
     <input type="text" name="newName" id="newName">
     <br />

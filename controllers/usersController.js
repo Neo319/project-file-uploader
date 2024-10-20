@@ -231,14 +231,16 @@ const new_folder = async function (req, res, next) {
 };
 
 const update_folder = async function (req, res, next) {
-  const customName = req.body.name.trim();
+  const customName = req.body.newName.trim();
   const userId = req.user.id;
-  const folderId = req.body.folderId;
+
+  console.log("attempting to ID: ", req.body.openFolderId);
+  const folderId = parseInt(req.body.openFolderId);
 
   try {
-    prisma.folder.update({
+    await prisma.folder.update({
       where: {
-        folderId: folderId,
+        id: folderId,
       },
       data: {
         name: customName,
@@ -252,7 +254,9 @@ const update_folder = async function (req, res, next) {
   res.redirect("/get-files");
 };
 
-//TODO: update folder names; delete folders
+const delete_folder = function (req, res, next) {
+  res.send("not implemented: folder deletion");
+};
 
 module.exports = {
   homepage_get,
@@ -266,4 +270,5 @@ module.exports = {
 
   new_folder,
   update_folder,
+  delete_folder,
 };
