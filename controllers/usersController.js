@@ -101,11 +101,20 @@ const sign_up_post = [
         return next(err);
       }
 
+      // TODO : create a new default file for each user
+
       try {
-        await prisma.user.create({
+        const newUser = await prisma.user.create({
           data: {
             username: req.body.username,
             password: hashedPassword,
+          },
+        });
+
+        await prisma.folder.create({
+          data: {
+            name: "file_(default)",
+            userId: newUser.id,
           },
         });
 
@@ -185,8 +194,6 @@ const files_get = async function (req, res, next) {
   const folders = await prisma.folder.findMany({
     where: { userId: user.id },
   });
-
-  // TODO: bugfix - load users with no files
 
   const openFolder = await prisma.folder.findFirst({
     where: { userId: user.id, name: req.query.openFolder },
