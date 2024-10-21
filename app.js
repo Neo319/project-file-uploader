@@ -14,15 +14,7 @@ const { PrismaClient } = require("@prisma/client");
 const expressSession = require("express-session");
 
 // cloudinary integration: our cloud storage service.
-const cloudinary = require("cloudinary").v2;
-
-cloudinary.config({
-  could_name: "dabwu9ydw",
-  secure: true,
-
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+const cloudinary = require("./config/cloudinary");
 
 // passport configuration
 const passport = require("passport");
