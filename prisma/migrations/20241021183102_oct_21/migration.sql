@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "File" ADD COLUMN     "type" TEXT,
+ALTER COLUMN "createdAt" SET DEFAULT CURRENT_TIMESTAMP;

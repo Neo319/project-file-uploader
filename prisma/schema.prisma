@@ -49,7 +49,8 @@ model File {
   //temp: files are stored in local system. Accessed as a path
   path String
 
-  createdAt  DateTime?
+  type       String?
+  createdAt  DateTime? @default(now())
   size       String?
   uploadTime String?
 

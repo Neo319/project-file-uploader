@@ -35,6 +35,7 @@
 
   <h2>Information:</h2>
   <ul>
+    <li>File type: <%= file.type ? file.type : 'data missing'  %></li>
     <li>File size: <%= file.size ? file.size : 'data missing'  %></li>
     <li>Time to upload: <%= file.uploadTime ? file.uploadTime : 'data missing' %></li>
     <li>Date created: <%= file.createdAt ? file.createdAt : 'data missing' %></li>
@@ -45,7 +46,7 @@
   <p><i>[debug]: extName= <%= JSON.stringify(file.path) %></i></p>
   <!-- temp: debug and find file extName in above p. -->
   <div>
-    <% if (file.path.extname) {} %>
+    <% if () {} %>
   </div>
 
   <% } else { %>

@@ -167,6 +167,14 @@ const files_post = async function (req, res, next) {
       res.status(400).send("missing file or name");
     }
 
+    // Getting necessary file info:
+
+    const re = /(?:\.([^.]+))?$/;
+    const ext = re.exec(filePath)[0]; //returns file extension
+
+    //TODO: upload time??
+
+    // ------ file is created in database. ------
     try {
       const item = await prisma.file.create({
         data: {
@@ -174,6 +182,9 @@ const files_post = async function (req, res, next) {
           name: customFileName,
           folderId: fileFolder.id,
           path: filePath,
+
+          type: ext || null,
+          size: file.size || null,
         },
       });
       console.log("uploaded:");
