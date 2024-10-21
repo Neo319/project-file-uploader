@@ -126,10 +126,6 @@ const sign_up_post = [
   },
 ];
 
-// TODO: write POST route for post-file.
-
-// TODO: write GET route for get-files.
-
 const files_post = async function (req, res, next) {
   // file upload to DISK is handled by multer.
   // TODO : ensure that filename is set before uploading.
@@ -170,11 +166,12 @@ const files_post = async function (req, res, next) {
     // Getting necessary file info:
 
     const re = /(?:\.([^.]+))?$/;
-    const ext = re.exec(filePath)[0]; //returns file extension
+    const ext = re.exec(filePath)[1]; //returns file extension
 
     //TODO: upload time??
 
     // ------ file is created in database. ------
+    console.log("here! ", ext, req.file.size);
     try {
       const item = await prisma.file.create({
         data: {
@@ -184,21 +181,20 @@ const files_post = async function (req, res, next) {
           path: filePath,
 
           type: ext || null,
-          size: file.size || null,
+          size: req.file.size.toString() || null,
         },
       });
       console.log("uploaded:");
       console.log(item);
+      //TODO: redirect to file with new folder
+      res.redirect("/get-files");
     } catch (err) {
-      console.log("error uploading file");
+      console.error(err.message || err);
       res.status(400).send("error uploading file.");
     }
   } else {
     console.log("error: not logged in.");
   }
-
-  //TODO: redirect to file with new folder
-  res.redirect("/");
 };
 
 const files_get = async function (req, res, next) {
