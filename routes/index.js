@@ -11,7 +11,14 @@ const storage = multer.diskStorage({
   destination: path.join(__dirname, "../tmp/uploads"),
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, file.fieldname + "-" + uniqueSuffix);
+
+    // getting the extension
+    const re = /(?:\.([^.]+))?$/;
+    const extension = re.exec(file.originalname);
+    console.log(extension);
+
+    // file is uploaded
+    cb(null, file.fieldname + "-" + uniqueSuffix + extension[0]);
   },
 });
 

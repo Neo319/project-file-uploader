@@ -10,7 +10,17 @@
 </head>
 
 <body>
-  <h1>File detail: (name)</h1>
+  <nav>
+    <a href="/">
+      <h1>-- Project File Uploader --</h1>
+    </a>
+
+    <a href="/get-files">
+      <p>return to files...</p>
+    </a>
+  </nav>
+
+  <h1>File detail</h1>
 
   <% if (file) {%>
   <p>
@@ -30,6 +40,13 @@
     <li>Date created: <%= file.createdAt ? file.createdAt : 'data missing' %></li>
 
   </ul>
+
+  <p>(If file is of type png, it will be rendered here:) </p>
+  <p><i>[debug]: extName= <%= JSON.stringify(file.path) %></i></p>
+  <!-- temp: debug and find file extName in above p. -->
+  <div>
+    <% if (file.path.extname) {} %>
+  </div>
 
   <% } else { %>
   <h1>Error! File not found.</h1>
