@@ -20,7 +20,6 @@ require("./config/passport");
 
 // here is where we write serialize and deserialize
 passport.serializeUser(function (user, cb) {
-  console.log("serializing...");
   process.nextTick(function () {
     return cb(null, {
       id: user.id,
@@ -29,7 +28,6 @@ passport.serializeUser(function (user, cb) {
   });
 });
 passport.deserializeUser(function (user, cb) {
-  console.log("deserializing...");
   process.nextTick(function () {
     return cb(null, user);
   });

@@ -27,11 +27,9 @@ const homepage_get = async function (req, res, next) {
 const login_post = function (req, res, next) {
   passport.authenticate("local", (err, user, info) => {
     if (err) {
-      console.log("debug: error during authentication", info);
       return next(err); // THIS LINE -- LEADS TO A WHITE SCREEN?
     }
     if (!user) {
-      console.log("debug: user not found.");
       return res.redirect("/"); // Redirect to home
     }
     req.logIn(user, (err) => {
@@ -130,12 +128,8 @@ const files_post = async function (req, res, next) {
   // TODO : ensure that filename is set before uploading.
   // file upload to DATABASE:
 
-  console.log(req.user.id);
-
   //ensure user is logged in
   if (req.user.id) {
-    console.log(req.file);
-
     const customFileName = req.body.fileName;
     const userId = req.user.id;
     const filePath = path.join(
@@ -172,7 +166,6 @@ const files_post = async function (req, res, next) {
     //TODO: upload time??
 
     // ------ file is created in database. ------
-    console.log("here! ", ext, req.file.size);
     try {
       const item = await prisma.file.create({
         data: {
@@ -230,9 +223,7 @@ const files_get = async function (req, res, next) {
 // *** folder CRUD ***
 const new_folder = async function (req, res, next) {
   const customName = req.body.name.trim();
-  console.log("make new folder of name:", customName);
   const userId = req.user.id;
-  console.log("debug: userId: ", userId);
 
   // TODO: add folder to user obj as a string, which is appended to file destination...
   // access database and create a new folder, update user's folders
@@ -256,9 +247,7 @@ const new_folder = async function (req, res, next) {
 const update_folder = async function (req, res, next) {
   const customName = req.body.newName.trim();
 
-  console.log("attempting to ID: ", req.body.openFolderId);
   const folderId = parseInt(req.body.openFolderId);
-  console.log(req.body);
 
   try {
     await prisma.folder.update({

@@ -15,7 +15,6 @@ const storage = multer.diskStorage({
     // getting the extension
     const re = /(?:\.([^.]+))?$/;
     const extension = re.exec(file.originalname);
-    console.log(extension);
 
     // file is uploaded
     cb(null, file.fieldname + "-" + uniqueSuffix + extension[0]);
