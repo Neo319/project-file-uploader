@@ -1,13 +1,12 @@
 const { body, validationResult } = require("express-validator");
+const path = require("path");
 
 const passport = require("passport");
 require("../config/passport");
-
 const bcrypt = require("bcryptjs");
 
 const { PrismaClient } = require("@prisma/client");
 const { userInfo } = require("os");
-
 const prisma = new PrismaClient();
 
 // --------- ROUTES ---------
@@ -139,8 +138,10 @@ const files_post = async function (req, res, next) {
 
     const customFileName = req.body.fileName;
     const userId = req.user.id;
-    const filePath = req.file.path;
-    console.log("path:", filePath);
+    const filePath = path.join(
+      "/project-file-uploader/tmp/uploads",
+      path.basename(req.file.path)
+    );
 
     //find correct folder
     const fileFolder = await prisma.folder.findFirst({

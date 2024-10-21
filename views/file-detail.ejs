@@ -38,16 +38,18 @@
     <li>File type: <%= file.type ? file.type : 'data missing'  %></li>
     <li>File size: <%= file.size ? file.size : 'data missing'  %></li>
     <li>Time to upload: <%= file.uploadTime ? file.uploadTime : 'data missing' %></li>
-    <li>Date created: <%= file.createdAt ? file.createdAt : 'data missing' %></li>
+    <li>Date created: <%= file.createdAt ? file.createdAt.toUTCString() : 'data missing' %></li>
 
   </ul>
 
   <p>(If file is of type png, it will be rendered here:) </p>
-  <p><i>[debug]: extName= <%= JSON.stringify(file.path) %></i></p>
+  <p><i>[debug]: path= <%= JSON.stringify(file.path) %></i></p>
   <!-- temp: debug and find file extName in above p. -->
   <div>
     <% if (file.type === "png") { %>
     <span>is png.</span>
+    <br />
+    <img width="300px" src="<%= file.path %>" alt="your image should be displayed here.">
     <% } %>
   </div>
 
