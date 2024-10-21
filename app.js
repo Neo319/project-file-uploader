@@ -6,13 +6,23 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
 var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
 
 var app = express();
 
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 const { PrismaClient } = require("@prisma/client");
 const expressSession = require("express-session");
+
+// cloudinary integration: our cloud storage service.
+const cloudinary = require("cloudinary").v2;
+
+cloudinary.config({
+  could_name: "dabwu9ydw",
+  secure: true,
+
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 // passport configuration
 const passport = require("passport");
@@ -50,7 +60,7 @@ app.use(
     cookie: {
       maxAge: 7 * 24 * 60 * 60 * 1000, // ms
     },
-    secret: "a santa at nasa",
+    secret: process.env.PRISMA_API_SECRET,
     resave: true,
     saveUninitialized: true,
     store: new PrismaSessionStore(new PrismaClient(), {
