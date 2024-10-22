@@ -14,9 +14,14 @@ const cloudinary = require("../config/cloudinary");
 
 const cloudUpload = async function (file, options) {
   try {
-    return await new Promise((resolve) => {
+    return await new Promise((resolve, reject) => {
       cloudinary.uploader
         .upload_stream((error, uploadResult) => {
+          if (error) {
+            console.log("error in upload_stream");
+            console.error(error);
+            return reject(error); //reject promise in case of errors
+          }
           return resolve(uploadResult);
         })
         .end(file);
