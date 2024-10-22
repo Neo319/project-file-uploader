@@ -30,6 +30,5 @@ const uploadFile = async function () {
 uploadFile();
 
 // TODO: save asset_id, format, created_at, bytes, url, secure_url, display_name, original_filename,
-//
 
 console.log("script completed");

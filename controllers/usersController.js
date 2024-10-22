@@ -1,6 +1,8 @@
 const { body, validationResult } = require("express-validator");
 const path = require("path");
 
+const fs = require("fs");
+
 const passport = require("passport");
 require("../config/passport");
 const bcrypt = require("bcryptjs");
@@ -8,6 +10,30 @@ const bcrypt = require("bcryptjs");
 const { PrismaClient } = require("@prisma/client");
 const { userInfo } = require("os");
 const prisma = new PrismaClient();
+
+//cloudinary integration
+const cloudinary = require("../config/cloudinary");
+
+const cloudUpload = async function (file, options) {
+  try {
+    return await new Promise((resolve) => {
+      cloudinary.uploader
+        .upload_stream((error, uploadResult) => {
+          return resolve(uploadResult);
+        })
+        .end(file);
+    }).then((uploadResult) => {
+      console.log(
+        `Buffer upload-stream with promise success - ${uploadResult}`
+      );
+      return uploadResult;
+    });
+  } catch (err) {
+    console.log("cloudUpload error");
+    console.error(err.message, err);
+    throw err;
+  }
+};
 
 // --------- ROUTES ---------
 
@@ -127,15 +153,13 @@ const files_post = async function (req, res, next) {
   // file upload to DISK is handled by multer.
   // TODO : ensure that filename is set before uploading.
   // file upload to DATABASE:
+  console.log("file:");
+  console.log(req.file);
 
   //ensure user is logged in
   if (req.user.id) {
     const customFileName = req.body.fileName;
     const userId = req.user.id;
-    const filePath = path.join(
-      "/project-file-uploader/tmp/uploads",
-      path.basename(req.file.path)
-    );
 
     //find correct folder
     const fileFolder = await prisma.folder.findFirst({
@@ -158,12 +182,44 @@ const files_post = async function (req, res, next) {
       res.status(400).send("missing file or name");
     }
 
-    // Getting necessary file info:
-
+    // getting necessary file information
     const re = /(?:\.([^.]+))?$/;
-    const ext = re.exec(filePath)[1]; //returns file extension
+    const ext = re.exec(req.file.originalname)[1];
 
-    //TODO: upload time??
+    // temp : TEST ------------
+    const result = await cloudUpload(req.file.buffer);
+    console.log(result);
+
+    res.send("reached end");
+    return null;
+
+    // let asset_id;
+    // let format;
+    // let created_at;
+    // let bytes;
+    // let url;
+    // let secure_url;
+    // let display_name;
+    // let original_filename;
+
+    let uploadedFile = {};
+
+    console.log("attempting");
+    console.log(req.file);
+
+    // -- upload to cloud via CLOUDINARY--
+    try {
+      uploadedFile = await cloudUpload(req.file.buffer, {
+        display_name: customFileName,
+        folder: "project-file-uploader",
+      });
+      console.log("uploaded to cloud:");
+      console.log(uploadedFile);
+    } catch (err) {
+      console.log("error during cloud upload");
+      console.error(err.message, err);
+      return next(err);
+    }
 
     // ------ file is created in database. ------
     try {
@@ -172,13 +228,13 @@ const files_post = async function (req, res, next) {
           userId: userId,
           name: customFileName,
           folderId: fileFolder.id,
-          path: filePath,
+          path: req.file.path,
 
           type: ext || null,
           size: req.file.size.toString() || null,
         },
       });
-      console.log("uploaded:");
+      console.log("uploaded to prisma:");
       console.log(item);
       //TODO: redirect to file with new folder
       res.redirect("/get-files");
