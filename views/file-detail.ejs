@@ -45,13 +45,8 @@
   <p>(If file is of type png, it will be rendered here:) </p>
   <p><i>[debug]: path= <%= JSON.stringify(file.path) %></i></p>
   <!-- temp: debug and find file extName in above p. -->
-  <div>
-    <% if (file.type === "png") { %>
-    <span>is png.</span>
-    <br />
-    <img width="300px" src="<%= file.path %>" alt="your image should be displayed here.">
-    <% } %>
-  </div>
+
+  <img src="<%= file.path %>" alt="image should be rendered here." style="width: 80vw">
 
   <% } else { %>
   <h1>Error! File not found.</h1>
