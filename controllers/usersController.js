@@ -187,11 +187,7 @@ const files_post = async function (req, res, next) {
     const ext = re.exec(req.file.originalname)[1];
 
     // temp : TEST ------------
-    const result = await cloudUpload(req.file.buffer);
-    console.log(result);
-
-    res.send("reached end");
-    return null;
+    // const result = await cloudUpload(req.file.buffer);
 
     // let asset_id;
     // let format;
@@ -228,10 +224,10 @@ const files_post = async function (req, res, next) {
           userId: userId,
           name: customFileName,
           folderId: fileFolder.id,
-          path: req.file.path,
+          path: uploadedFile.url,
 
-          type: ext || null,
-          size: req.file.size.toString() || null,
+          type: uploadedFile.format || null,
+          size: uploadedFile.bytes.toString() || null,
         },
       });
       console.log("uploaded to prisma:");
